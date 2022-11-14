@@ -25,11 +25,13 @@ class Track {
   final String name;
   final String id;
   final String artistName;
+  final String previewUrl;
 
   Track({
     required this.name,
     required this.id,
     required this.artistName,
+    required this.previewUrl,
   });
 
   factory Track.fromMap(Map<String, dynamic> map) {
@@ -37,6 +39,7 @@ class Track {
       name: map['name'] as String,
       id: map['id'] as String,
       artistName: map['artists'][0]['name'],
+      previewUrl: map['preview_url'] as String,
     );
   }
 }

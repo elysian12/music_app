@@ -1,8 +1,11 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_app/models/album.dart';
+import 'package:music_app/modules/home/controller/audio_player_constroller.dart';
 
 import '../controller/album_controller.dart';
+import '../widgets/audio_player.dart';
 
 class AlbumTrackSceen extends ConsumerWidget {
   final Album album;
@@ -12,6 +15,7 @@ class AlbumTrackSceen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var tracks = ref.watch(albumTrackControllerProvider(album.id));
+    var currenttracks = ref.watch(currentTrackProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(album.name),
@@ -26,13 +30,35 @@ class AlbumTrackSceen extends ConsumerWidget {
               itemCount: r.length,
               itemBuilder: (context, index) {
                 return ListTile(
+                  onTap: () {
+                    ref.watch(currentTrackProvider.notifier).update(r[index]);
+                    ref
+                        .watch(audioPlayerProvider.notifier)
+                        .play(r[index].previewUrl);
+                  },
                   leading: Image.network(album.image),
                   trailing: IconButton(
                     onPressed: () {},
                     icon: const Icon(Icons.more_vert),
                   ),
-                  title: Text(r[index].name),
-                  subtitle: Text(r[index].artistName),
+                  title: Text(
+                    r[index].name,
+                    style: TextStyle(
+                        color: currenttracks == null
+                            ? null
+                            : currenttracks.id == r[index].id
+                                ? Colors.green
+                                : null),
+                  ),
+                  subtitle: Text(
+                    r[index].artistName,
+                    style: TextStyle(
+                        color: currenttracks == null
+                            ? null
+                            : currenttracks.id == r[index].id
+                                ? Colors.green
+                                : null),
+                  ),
                 );
               },
             ),
@@ -45,6 +71,7 @@ class AlbumTrackSceen extends ConsumerWidget {
           child: CircularProgressIndicator(),
         ),
       ),
+      bottomNavigationBar: const MyAudioPlayer(),
     );
   }
 }

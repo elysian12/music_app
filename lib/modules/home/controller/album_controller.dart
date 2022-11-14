@@ -17,6 +17,16 @@ final albumsControllerProvider =
   return albumProvider.getNewRelease();
 });
 
+final lofiAlbumsProvider =
+    FutureProvider<FutureEither<List<Album>>>((ref) async {
+  String token = '';
+  final authRepository =
+      await ref.watch(authRepositoryProvider).getSpotifyToken();
+  authRepository.fold((l) => null, (r) => token = r);
+  final albumProvider = ref.watch(albumRepositoryProvider(token));
+  return albumProvider.getLofiAlbums();
+});
+
 final albumTrackControllerProvider =
     FutureProvider.family<Either<Failure, List<Track>>, String>(
         (ref, albumId) async {
