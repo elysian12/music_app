@@ -1,18 +1,32 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:music_app/common/constants/theme.dart';
+import 'package:music_app/common/providers/theme_provider.dart';
+import 'package:music_app/modules/auth/screens/login_screen.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'firebase_options.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    var isDark = ref.watch(themeNotifierProvider);
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      title: 'Acuostic App',
+      theme: lightTheme(),
+      darkTheme: darkTheme(),
+      themeMode: isDark ? ThemeMode.light : ThemeMode.dark,
+      debugShowCheckedModeBanner: false,
+      home: const LoginScreen(),
     );
   }
 }

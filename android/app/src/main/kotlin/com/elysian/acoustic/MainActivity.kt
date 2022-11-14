@@ -1,4 +1,4 @@
-package com.example.music_app
+package com.elysian.acoustic
 
 import io.flutter.embedding.android.FlutterActivity
 
