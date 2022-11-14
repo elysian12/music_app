@@ -22,6 +22,7 @@ dependencies:
   google_sign_in: ^5.4.2
   fpdart: ^0.3.0
   equatable: ^2.0.5
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:

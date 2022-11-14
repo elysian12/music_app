@@ -6,6 +6,7 @@ ThemeData lightTheme() {
     iconTheme: const IconThemeData(
       color: Color(0xff091227),
     ),
+    drawerTheme: const DrawerThemeData(backgroundColor: Colors.white),
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.white,
       elevation: 0,
@@ -32,6 +33,7 @@ ThemeData darkTheme() {
         color: Color(0xffEAF0FF),
       ),
     ),
+    drawerTheme: const DrawerThemeData(backgroundColor: Color(0xff091227)),
     indicatorColor: const Color(0xffEAF0FF),
     primaryColor: const Color(0xff091227),
     secondaryHeaderColor: const Color(0xffA5C0FF),

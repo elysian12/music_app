@@ -28,3 +28,11 @@ class AuthController extends StateNotifier<bool> {
     state = false;
   }
 }
+
+class TokenProiver extends StateNotifier<String> {
+  TokenProiver() : super('');
+
+  void updateToken(String value) {
+    state = value;
+  }
+}

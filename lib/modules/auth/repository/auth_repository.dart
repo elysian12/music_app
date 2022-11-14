@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,6 +10,7 @@ import 'package:music_app/common/constants/faliure.dart';
 import 'package:music_app/common/constants/type_defs.dart';
 import 'package:music_app/common/providers/firebase_provider.dart';
 import 'package:music_app/models/user.dart';
+import 'package:http/http.dart' as http;
 
 final authRepositoryProvider = Provider(
   (ref) => AuthRepository(
@@ -71,6 +73,33 @@ class AuthRepository {
       throw e.message!;
     } catch (e) {
       return left(Failure(e.toString()));
+    }
+  }
+
+  //Spotify AuthToken
+
+  Future<FutureEither<String>> getSpotifyToken() async {
+    Map<String, String> headers = {
+      'Content-Type': "application/x-www-form-urlencoded",
+      'Authorization':
+          "Basic MjBiNGMxM2QzOGYyNGNiZjlkZWFlMzA4MjhhNjcwMzM6MzY5NDVhNjg4NWM4NGZjZjliZmQ3ODhiYmM5NTczNzQ="
+    };
+
+    var request = http.Request(
+        'POST', Uri.parse('https://accounts.spotify.com/api/token'));
+    request.bodyFields = {'grant_type': 'client_credentials'};
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      var responseBody = jsonDecode(await response.stream.bytesToString());
+      log(responseBody['access_token']);
+
+      return right(responseBody['access_token']);
+    } else {
+      return left(Failure(response.reasonPhrase!));
     }
   }
 }
