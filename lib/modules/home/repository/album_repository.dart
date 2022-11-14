@@ -51,4 +51,32 @@ class AlbumRepository {
       return left(Failure(e.toString()));
     }
   }
+
+  Future<FutureEither<List<Track>>> getAlbumTrack(String alubumId) async {
+    List<Track> tracks = [];
+    final url = Uri.parse('https://api.spotify.com/v1/albums/$alubumId/tracks');
+
+    try {
+      var response = await http.get(
+        url,
+        headers: {'Authorization': 'Bearer $token'},
+      );
+
+      if (response.statusCode == 200) {
+        var responseBody = jsonDecode(response.body);
+
+        (responseBody['items'] as List).forEach(
+          (element) {
+            tracks.add(Track.fromMap(element));
+          },
+        );
+
+        return right(tracks);
+      } else {
+        throw 'SomeThing went wrong';
+      }
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
 }

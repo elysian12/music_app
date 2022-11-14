@@ -1,7 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:music_app/models/album.dart';
 import 'package:music_app/modules/auth/screens/login_screen.dart';
+import 'package:music_app/modules/home/screens/album_tracks_screen.dart';
 import 'package:music_app/modules/home/screens/home_screen.dart';
 
 class MyRouter {
@@ -17,6 +19,7 @@ class MyRouter {
 
   static Route<dynamic>? generateRoute(RouteSettings settings) {
     log('Route : ${settings.name}');
+    final argumnets = settings.arguments;
     switch (settings.name) {
       case '/':
         return null;
@@ -27,6 +30,12 @@ class MyRouter {
       case HomeScreen.routeName:
         return MaterialPageRoute(
           builder: (_) => const HomeScreen(),
+        );
+      case AlbumTrackSceen.routeName:
+        return MaterialPageRoute(
+          builder: (_) => AlbumTrackSceen(
+            album: (argumnets as Album),
+          ),
         );
       default:
         return _errorRoute();

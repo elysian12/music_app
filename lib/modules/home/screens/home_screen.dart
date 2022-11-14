@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_app/common/widgets/drawer.dart';
+import 'package:music_app/modules/home/screens/album_tracks_screen.dart';
 
 import '../controller/album_controller.dart';
 
@@ -64,26 +65,31 @@ class HomeScreen extends ConsumerWidget {
                                 margin: const EdgeInsets.all(8),
                                 height: 250,
                                 width: 190,
-                                child: Column(
-                                  children: [
-                                    Image.network(albums[index].image),
-                                    const SizedBox(height: 10),
-                                    Text(
-                                      albums[index].name,
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                      maxLines: 1,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Text(
-                                      albums[index].artistName,
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .secondaryHeaderColor),
-                                    )
-                                  ],
+                                child: InkWell(
+                                  onTap: () => Navigator.pushNamed(
+                                      context, AlbumTrackSceen.routeName,
+                                      arguments: albums[index]),
+                                  child: Column(
+                                    children: [
+                                      Image.network(albums[index].image),
+                                      const SizedBox(height: 10),
+                                      Text(
+                                        albums[index].name,
+                                        style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                        maxLines: 1,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Text(
+                                        albums[index].artistName,
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .secondaryHeaderColor),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ));
