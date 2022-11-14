@@ -13,6 +13,7 @@ ThemeData lightTheme() {
         color: Color(0xff091227),
       ),
     ),
+    indicatorColor: const Color(0xff091227),
     primaryColor: Colors.white,
     secondaryHeaderColor: const Color(0xffA5C0FF),
   );
@@ -31,6 +32,7 @@ ThemeData darkTheme() {
         color: Color(0xffEAF0FF),
       ),
     ),
+    indicatorColor: const Color(0xffEAF0FF),
     primaryColor: const Color(0xff091227),
     secondaryHeaderColor: const Color(0xffA5C0FF),
   );

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_app/common/constants/theme.dart';
 import 'package:music_app/common/providers/theme_provider.dart';
 import 'package:music_app/modules/auth/screens/login_screen.dart';
+import 'package:music_app/routes/router.dart';
 
 import 'firebase_options.dart';
 
@@ -26,7 +27,8 @@ class MyApp extends ConsumerWidget {
       darkTheme: darkTheme(),
       themeMode: isDark ? ThemeMode.light : ThemeMode.dark,
       debugShowCheckedModeBanner: false,
-      home: const LoginScreen(),
+      initialRoute: LoginScreen.routeName,
+      onGenerateRoute: MyRouter.generateRoute,
     );
   }
 }
