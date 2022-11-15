@@ -39,132 +39,134 @@ class HomeScreen extends ConsumerWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 18),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 10),
-            Text(
-              'Recommended for You',
-              style: Theme.of(context).textTheme.headline5!.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              height: 260,
-              width: MediaQuery.of(context).size.width,
-              child: albums.when(
-                  data: (data) {
-                    return data.fold(
-                        (l) => Center(
-                              child: Text(l.message.toString()),
-                            ),
-                        (albums) => ListView.builder(
-                              itemCount: albums.length,
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) => Container(
-                                margin: const EdgeInsets.all(8),
-                                height: 250,
-                                width: 190,
-                                child: InkWell(
-                                  onTap: () => Navigator.pushNamed(
-                                      context, AlbumTrackSceen.routeName,
-                                      arguments: albums[index]),
-                                  child: Column(
-                                    children: [
-                                      Image.network(albums[index].image),
-                                      const SizedBox(height: 10),
-                                      Text(
-                                        albums[index].name,
-                                        style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold),
-                                        maxLines: 1,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      const SizedBox(height: 5),
-                                      Text(
-                                        albums[index].artistName,
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .secondaryHeaderColor),
-                                      )
-                                    ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 10),
+              Text(
+                'Recommended for You',
+                style: Theme.of(context).textTheme.headline5!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                height: 260,
+                width: MediaQuery.of(context).size.width,
+                child: albums.when(
+                    data: (data) {
+                      return data.fold(
+                          (l) => Center(
+                                child: Text(l.message.toString()),
+                              ),
+                          (albums) => ListView.builder(
+                                itemCount: albums.length,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) => Container(
+                                  margin: const EdgeInsets.all(8),
+                                  height: 250,
+                                  width: 190,
+                                  child: InkWell(
+                                    onTap: () => Navigator.pushNamed(
+                                        context, AlbumTrackSceen.routeName,
+                                        arguments: albums[index]),
+                                    child: Column(
+                                      children: [
+                                        Image.network(albums[index].image),
+                                        const SizedBox(height: 10),
+                                        Text(
+                                          albums[index].name,
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                          maxLines: 1,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Text(
+                                          albums[index].artistName,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .secondaryHeaderColor),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
+                              ));
+                    },
+                    error: (error, stackTrace) => Center(
+                          child: Text(error.toString()),
+                        ),
+                    loading: () => const Center(
+                          child: CircularProgressIndicator(),
+                        )),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                'Lofi Albums',
+                style: Theme.of(context).textTheme.headline5!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                height: 260,
+                width: MediaQuery.of(context).size.width,
+                child: lofiAlbums.when(
+                    data: (data) {
+                      return data.fold(
+                          (l) => Center(
+                                child: Text(l.message.toString()),
                               ),
-                            ));
-                  },
-                  error: (error, stackTrace) => Center(
-                        child: Text(error.toString()),
-                      ),
-                  loading: () => const Center(
-                        child: CircularProgressIndicator(),
-                      )),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Lofi Albums',
-              style: Theme.of(context).textTheme.headline5!.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              height: 260,
-              width: MediaQuery.of(context).size.width,
-              child: lofiAlbums.when(
-                  data: (data) {
-                    return data.fold(
-                        (l) => Center(
-                              child: Text(l.message.toString()),
-                            ),
-                        (albums) => ListView.builder(
-                              itemCount: albums.length,
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) => Container(
-                                margin: const EdgeInsets.all(8),
-                                height: 250,
-                                width: 190,
-                                child: InkWell(
-                                  onTap: () => Navigator.pushNamed(
-                                      context, AlbumTrackSceen.routeName,
-                                      arguments: albums[index]),
-                                  child: Column(
-                                    children: [
-                                      Image.network(albums[index].image),
-                                      const SizedBox(height: 10),
-                                      Text(
-                                        albums[index].name,
-                                        style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold),
-                                        maxLines: 1,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      const SizedBox(height: 5),
-                                      Text(
-                                        albums[index].artistName,
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .secondaryHeaderColor),
-                                      )
-                                    ],
+                          (albums) => ListView.builder(
+                                itemCount: albums.length,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) => Container(
+                                  margin: const EdgeInsets.all(8),
+                                  height: 250,
+                                  width: 190,
+                                  child: InkWell(
+                                    onTap: () => Navigator.pushNamed(
+                                        context, AlbumTrackSceen.routeName,
+                                        arguments: albums[index]),
+                                    child: Column(
+                                      children: [
+                                        Image.network(albums[index].image),
+                                        const SizedBox(height: 10),
+                                        Text(
+                                          albums[index].name,
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                          maxLines: 1,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Text(
+                                          albums[index].artistName,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .secondaryHeaderColor),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ));
-                  },
-                  error: (error, stackTrace) => Center(
-                        child: Text(error.toString()),
-                      ),
-                  loading: () => const Center(
-                        child: CircularProgressIndicator(),
-                      )),
-            ),
-          ],
+                              ));
+                    },
+                    error: (error, stackTrace) => Center(
+                          child: Text(error.toString()),
+                        ),
+                    loading: () => const Center(
+                          child: CircularProgressIndicator(),
+                        )),
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: const MyAudioPlayer(),

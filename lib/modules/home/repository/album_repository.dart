@@ -58,8 +58,10 @@ class AlbumRepository {
     List<String> lofiIds = [
       '7nmV3mTa1h0Bqi5DFzyYFi',
       '2AlygPiZ2YcMsVAku4xHWH',
-      '37i9dQZF1DWYT14rrjrMpx',
-      '3N7ahV2mv4KWd8LcJBuoyN'
+      '0OqGNoguOy3MODEVsGNyMK',
+      '0q7bYBmJ27h6GW4m3dWPPC',
+      '1HeX4SmCFW4EPHQDvHgrVS',
+      '6zwucxlWusEUCZt6DeQJCu',
     ];
 
     try {

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_app/modules/home/screens/audio_player_screen.dart';
@@ -30,7 +32,7 @@ class MyAudioPlayer extends ConsumerWidget {
                       Theme.of(context).secondaryHeaderColor.withOpacity(0.5),
                 )),
               ),
-              height: 100,
+              height: Platform.isAndroid ? 70 : 100,
               width: MediaQuery.of(context).size.width,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,

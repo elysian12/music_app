@@ -34,7 +34,7 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
-            const SizedBox(height: 80),
+            const SizedBox(height: 40),
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.network(
