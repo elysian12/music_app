@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:music_app/models/album.dart';
 import 'package:music_app/modules/auth/screens/login_screen.dart';
 import 'package:music_app/modules/home/screens/album_tracks_screen.dart';
+import 'package:music_app/modules/home/screens/audio_player_screen.dart';
 import 'package:music_app/modules/home/screens/home_screen.dart';
+import 'package:page_transition/page_transition.dart';
 
 class MyRouter {
   static Route<dynamic> _errorRoute() {
@@ -37,6 +39,14 @@ class MyRouter {
             album: (argumnets as Album),
           ),
         );
+      case AudioPlayerScreen.routeName:
+        return PageTransition(
+            child: AudioPlayerScreen(
+              track: (argumnets as Track),
+            ),
+            type: PageTransitionType.bottomToTop,
+            settings: settings);
+
       default:
         return _errorRoute();
     }

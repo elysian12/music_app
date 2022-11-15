@@ -11,9 +11,11 @@ import 'package:music_app/common/constants/type_defs.dart';
 import 'package:music_app/common/providers/firebase_provider.dart';
 import 'package:music_app/models/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:music_app/modules/auth/controller/auth_controller.dart';
 
 final authRepositoryProvider = Provider(
   (ref) => AuthRepository(
+    ref: ref,
     auth: ref.watch(firebaseAuthProvider),
     googleSignIn: ref.watch(googleSignInProvider),
     firestore: ref.watch(firestoreProvider),
@@ -24,14 +26,17 @@ class AuthRepository {
   final FirebaseAuth _auth;
   final GoogleSignIn _googleSignIn;
   final FirebaseFirestore _firestore;
+  final Ref _ref;
 
   AuthRepository({
     required FirebaseAuth auth,
     required GoogleSignIn googleSignIn,
     required FirebaseFirestore firestore,
+    required Ref ref,
   })  : _auth = auth,
         _googleSignIn = googleSignIn,
-        _firestore = firestore;
+        _firestore = firestore,
+        _ref = ref;
 
   CollectionReference get _users => _firestore.collection('users');
 
@@ -68,6 +73,9 @@ class AuthRepository {
                 UserModel.fromMap(event.data() as Map<String, dynamic>))
             .first;
       }
+
+      _ref.watch(userProvider.notifier).updateUser(userModel);
+
       return right(userModel);
     } on FirebaseAuthException catch (e) {
       throw e.message!;

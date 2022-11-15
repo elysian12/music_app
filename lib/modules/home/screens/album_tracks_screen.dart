@@ -14,7 +14,7 @@ class AlbumTrackSceen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var tracks = ref.watch(albumTrackControllerProvider(album.id));
+    var tracks = ref.watch(albumTrackControllerProvider(album));
     var currenttracks = ref.watch(currentTrackProvider);
     return Scaffold(
       appBar: AppBar(
@@ -26,42 +26,44 @@ class AlbumTrackSceen extends ConsumerWidget {
             (l) => Center(
               child: Text(l.message.toString()),
             ),
-            (r) => ListView.builder(
-              itemCount: r.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  onTap: () {
-                    ref.watch(currentTrackProvider.notifier).update(r[index]);
-                    ref
-                        .watch(audioPlayerProvider.notifier)
-                        .play(r[index].previewUrl);
-                  },
-                  leading: Image.network(album.image),
-                  trailing: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.more_vert),
-                  ),
-                  title: Text(
-                    r[index].name,
-                    style: TextStyle(
-                        color: currenttracks == null
-                            ? null
-                            : currenttracks.id == r[index].id
-                                ? Colors.green
-                                : null),
-                  ),
-                  subtitle: Text(
-                    r[index].artistName,
-                    style: TextStyle(
-                        color: currenttracks == null
-                            ? null
-                            : currenttracks.id == r[index].id
-                                ? Colors.green
-                                : null),
-                  ),
-                );
-              },
-            ),
+            (r) {
+              return ListView.builder(
+                itemCount: r.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    onTap: () {
+                      ref.watch(currentTrackProvider.notifier).update(r[index]);
+                      ref
+                          .watch(audioPlayerProvider.notifier)
+                          .play(r[index].previewUrl);
+                    },
+                    leading: Image.network(album.image),
+                    trailing: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.more_vert),
+                    ),
+                    title: Text(
+                      r[index].name,
+                      style: TextStyle(
+                          color: currenttracks == null
+                              ? null
+                              : currenttracks.id == r[index].id
+                                  ? Colors.green
+                                  : null),
+                    ),
+                    subtitle: Text(
+                      r[index].artistName,
+                      style: TextStyle(
+                          color: currenttracks == null
+                              ? null
+                              : currenttracks.id == r[index].id
+                                  ? Colors.green
+                                  : null),
+                    ),
+                  );
+                },
+              );
+            },
           );
         },
         error: (error, stackTrace) => Center(

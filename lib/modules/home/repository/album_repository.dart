@@ -55,36 +55,47 @@ class AlbumRepository {
   Future<FutureEither<List<Album>>> getLofiAlbums() async {
     List<Album> albums = [];
 
-    List<String> lofiIds = ['7nmV3mTa1h0Bqi5DFzyYFi', '2AlygPiZ2YcMsVAku4xHWH'];
+    List<String> lofiIds = [
+      '7nmV3mTa1h0Bqi5DFzyYFi',
+      '2AlygPiZ2YcMsVAku4xHWH',
+      '37i9dQZF1DWYT14rrjrMpx',
+      '3N7ahV2mv4KWd8LcJBuoyN'
+    ];
 
     try {
-      final newReleaseUrl =
-          Uri.parse('https://api.spotify.com/v1/albums/7nmV3mTa1h0Bqi5DFzyYFi');
+      for (var element in lofiIds) {
+        try {
+          final newReleaseUrl =
+              Uri.parse('https://api.spotify.com/v1/albums/$element');
 
-      var response = await http.get(
-        newReleaseUrl,
-        headers: {'Authorization': 'Bearer $token'},
-      );
+          var response = await http.get(
+            newReleaseUrl,
+            headers: {'Authorization': 'Bearer $token'},
+          );
 
-      if (response.statusCode == 200) {
-        var responseBody = jsonDecode(response.body);
+          if (response.statusCode == 200) {
+            var responseBody = jsonDecode(response.body);
 
-        albums.add(Album.fromMap(responseBody));
+            albums.add(Album.fromMap(responseBody));
 
-        log(albums.length.toString());
-
-        return right(albums);
-      } else {
-        throw 'SomeThing went wrong';
+            log(albums.length.toString());
+          } else {
+            throw 'SomeThing went wrong';
+          }
+        } catch (e) {
+          return left(Failure(e.toString()));
+        }
       }
+      return right(albums);
     } catch (e) {
       return left(Failure(e.toString()));
     }
   }
 
-  Future<FutureEither<List<Track>>> getAlbumTrack(String alubumId) async {
+  Future<FutureEither<List<Track>>> getAlbumTrack(Album album) async {
     List<Track> tracks = [];
-    final url = Uri.parse('https://api.spotify.com/v1/albums/$alubumId/tracks');
+    final url =
+        Uri.parse('https://api.spotify.com/v1/albums/${album.id}/tracks');
 
     try {
       var response = await http.get(
@@ -97,7 +108,7 @@ class AlbumRepository {
 
         (responseBody['items'] as List).forEach(
           (element) {
-            tracks.add(Track.fromMap(element));
+            tracks.add(Track.fromMap(element, album.image));
           },
         );
 

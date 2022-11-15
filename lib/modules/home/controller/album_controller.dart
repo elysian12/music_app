@@ -28,7 +28,7 @@ final lofiAlbumsProvider =
 });
 
 final albumTrackControllerProvider =
-    FutureProvider.family<Either<Failure, List<Track>>, String>(
+    FutureProvider.family<Either<Failure, List<Track>>, Album>(
         (ref, albumId) async {
   String token = '';
   final authRepository =

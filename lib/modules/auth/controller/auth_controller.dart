@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_app/common/utils.dart';
+import 'package:music_app/models/user.dart';
 import 'package:music_app/modules/auth/repository/auth_repository.dart';
 import 'package:music_app/modules/home/screens/home_screen.dart';
 
 final authControllerProvider =
     StateNotifierProvider<AuthController, bool>((ref) {
   var authRepository = ref.watch(authRepositoryProvider);
+
   return AuthController(authRepository: authRepository);
+});
+
+final userProvider = StateNotifierProvider<UserNotifier, UserModel>((ref) {
+  return UserNotifier();
 });
 
 class AuthController extends StateNotifier<bool> {
@@ -34,5 +40,16 @@ class TokenProiver extends StateNotifier<String> {
 
   void updateToken(String value) {
     state = value;
+  }
+}
+
+class UserNotifier extends StateNotifier<UserModel> {
+  UserNotifier()
+      : super(
+          const UserModel(name: '', photoUrl: '', uid: ''),
+        );
+
+  void updateUser(UserModel user) {
+    state = user;
   }
 }

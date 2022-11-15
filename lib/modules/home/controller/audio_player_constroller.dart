@@ -11,6 +11,14 @@ final currentTrackProvider = StateNotifierProvider<CurrentTrack, Track?>((ref) {
   return CurrentTrack();
 });
 
+final currentTrackDurationProvider = FutureProvider<Duration?>((ref) async {
+  return ref.watch(audioPlayerProvider.notifier).getDuration();
+});
+
+final currentTrackPositionProvider = StreamProvider<Duration>((ref) {
+  return ref.watch(audioPlayerProvider.notifier).playerPosition();
+});
+
 class CurrentTrack extends StateNotifier<Track?> {
   CurrentTrack() : super(null);
 
@@ -29,6 +37,10 @@ class AudioPlayerController extends StateNotifier<bool> {
     await _audioPlayer.play(UrlSource(url));
   }
 
+  Stream<Duration> playerPosition() {
+    return _audioPlayer.onPositionChanged;
+  }
+
   void pause() async {
     await _audioPlayer.pause();
     state = false;
@@ -44,11 +56,15 @@ class AudioPlayerController extends StateNotifier<bool> {
     state = false;
   }
 
-  Future<Duration?> getDuration() async {
-    return await _audioPlayer.getDuration();
+  void muteUnmute(bool isMute) {
+    if (isMute) {
+      _audioPlayer.setVolume(1);
+    } else {
+      _audioPlayer.setVolume(0);
+    }
   }
 
-  Future<Duration?> getCurrentPosition() async {
-    return await _audioPlayer.getCurrentPosition();
+  Future<Duration?> getDuration() async {
+    return await _audioPlayer.getDuration();
   }
 }

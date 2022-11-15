@@ -4,6 +4,7 @@ import 'package:music_app/common/widgets/drawer.dart';
 import 'package:music_app/modules/home/screens/album_tracks_screen.dart';
 
 import '../controller/album_controller.dart';
+import '../widgets/audio_player.dart';
 
 class HomeScreen extends ConsumerWidget {
   static const String routeName = '/home';
@@ -166,6 +167,7 @@ class HomeScreen extends ConsumerWidget {
           ],
         ),
       ),
+      bottomNavigationBar: const MyAudioPlayer(),
     );
   }
 }
