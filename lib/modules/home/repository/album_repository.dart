@@ -94,6 +94,48 @@ class AlbumRepository {
     }
   }
 
+  Future<FutureEither<List<Album>>> getPlayList() async {
+    List<Album> albums = [];
+
+    List<String> lofiIds = [
+      '7nmV3mTa1h0Bqi5DFzyYFi',
+      '2AlygPiZ2YcMsVAku4xHWH',
+      '0OqGNoguOy3MODEVsGNyMK',
+      '0q7bYBmJ27h6GW4m3dWPPC',
+      '1HeX4SmCFW4EPHQDvHgrVS',
+      '6zwucxlWusEUCZt6DeQJCu',
+    ];
+
+    try {
+      for (var element in lofiIds) {
+        try {
+          final newReleaseUrl =
+              Uri.parse('https://api.spotify.com/v1/playlists/$element');
+
+          var response = await http.get(
+            newReleaseUrl,
+            headers: {'Authorization': 'Bearer $token'},
+          );
+
+          if (response.statusCode == 200) {
+            var responseBody = jsonDecode(response.body);
+
+            albums.add(Album.fromMap(responseBody));
+
+            log(albums.length.toString());
+          } else {
+            throw 'SomeThing went wrong';
+          }
+        } catch (e) {
+          return left(Failure(e.toString()));
+        }
+      }
+      return right(albums);
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
   Future<FutureEither<List<Track>>> getAlbumTrack(Album album) async {
     List<Track> tracks = [];
     final url =

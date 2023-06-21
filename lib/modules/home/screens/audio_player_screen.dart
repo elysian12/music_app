@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_app/models/album.dart';
 import 'package:music_app/modules/home/controller/audio_player_constroller.dart';
 
+import '../controller/favourite_track_controller.dart';
+
 class AudioPlayerScreen extends ConsumerStatefulWidget {
   final Track track;
   static const String routeName = '/audio-player-screen';
@@ -26,6 +28,7 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
     final player = ref.watch(audioPlayerProvider);
     final duration = ref.watch(currentTrackDurationProvider);
     final position = ref.watch(currentTrackPositionProvider);
+    final isfavoutite = ref.watch(favouriteNotifierProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Playing Now'),
@@ -46,9 +49,9 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
             ),
             const SizedBox(height: 20),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const Spacer(),
                 Column(
                   children: [
                     Text(
@@ -70,6 +73,16 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
                     ),
                   ],
                 ),
+                const Spacer(),
+                InkWell(
+                  onTap: () => ref
+                      .watch(favouriteNotifierProvider.notifier)
+                      .favourite(widget.track),
+                  child: Icon(
+                    !isfavoutite ? Icons.favorite_outline : Icons.favorite,
+                    color: isfavoutite ? Colors.green : null,
+                  ),
+                )
               ],
             ),
             const SizedBox(height: 40),

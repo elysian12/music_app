@@ -27,6 +27,7 @@ class HomeScreen extends ConsumerWidget {
             icon: Image.asset(
               'assets/ham.png',
               scale: 4,
+              color: Theme.of(context).indicatorColor,
             ),
           );
         }),
